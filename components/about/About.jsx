@@ -10,13 +10,12 @@ export default function About() {
             <div className="row justify-center text-center">
               <div className="col-auto">
                 <div>
-                  <h1 className="page-header__title">تعرف علينا</h1>
+                  <h1 className="page-header__title">أنا عمر خالد</h1>
                 </div>
 
                 <div>
                   <p className="page-header__text">
-                    نحن في مهمة لتقديم دورات تدريبية جذابة ومنسقة 
-                    بسعر معقول.
+                    أساعدك توصل للحرية المالية
                   </p>
                 </div>
               </div>
@@ -58,7 +57,7 @@ export default function About() {
 
             <div className="col-lg-5">
               <h2 className="text-30 lh-16">
-                من نحن؟
+                طيب من هو عمر؟
               </h2>
               <p className="text-dark-1 mt-30">
               أنا عمر خالد، شاب كنت ضايع في حياتي وكل وقتي عبارة عن أفلام ومسلسلات وحتى علاقتي بربي كانت سيئة .. ولكن بفضل الله أخذت قرار التغيير وبدأت اشتغل على نفسي والحمدلله اليوم أنا عندي أكثر من شركة في التسويق وعندي دخل خاص فيني بعد ما كنت آخذ مصروفي من أهلي !!

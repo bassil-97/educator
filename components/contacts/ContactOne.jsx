@@ -6,21 +6,21 @@ import { contactData } from "@/data/contactLinks";
 import dynamic from "next/dynamic";
 // import { el } from "@fullcalendar/core/internal-common";
 
-const MapComponent = dynamic(() => import("./Map"), {
-  ssr: false,
-});
+// const MapComponent = dynamic(() => import("./Map"), {
+//   ssr: false,
+// });
 export default function ContactOne() {
-  const [showMap, setShowMap] = useState(false);
-  useEffect(() => {
-    setShowMap(true);
-  }, []);
+  // const [showMap, setShowMap] = useState(false);
+  // useEffect(() => {
+  //   setShowMap(true);
+  // }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   return (
     <>
-      <section className="">{showMap && <MapComponent />}</section>
+      {/* <section className="">{showMap && <MapComponent />}</section> */}
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row y-gap-50 justify-between">

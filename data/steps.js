@@ -2,8 +2,8 @@ export const steps = [
   {
     id: 1,
     icon: "icon-online-learning-4 text-64 text-green-1",
-    title: "01. الخبرة",
-    text: "+12 سنة خبرة",
+    title: "الحرية المالية",
+    text: "وصلت للحرية المالية خلال سنة ونصف!",
   },
   // {
   //   id: 2,
@@ -14,8 +14,8 @@ export const steps = [
   {
     id: 2,
     icon: "icon-working-at-home-2 text-64 text-green-1",
-    title: "03. عدد المسجلين",
-    text: "+100 شخص مسجل في الكورس",
+    title: "03.  المسجلين",
+    text: "اكثر من 250 مشترك في الكورس يشتغلوا على تأسيس مشاريعهم",
   },
 ];
 

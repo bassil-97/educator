@@ -12,7 +12,7 @@ export default function WhyCourse() {
                 data-aos="fade-up"
                 data-aos-duration={800}
               >
-                لماذا تتعلم مع دورتنا؟
+                ليش لازم تشترك معي؟
               </h2>
 
               <p

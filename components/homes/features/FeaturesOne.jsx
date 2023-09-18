@@ -15,7 +15,7 @@ export default function LearnNewSkill() {
                 className="about-content__title customSized"
                 data-aos="fade-up"
               >
-                <span>ايش</span> تستفيد اذا دخلت الكورس؟
+                <span>ايش</span> رح تستفيد اذا دخلت الكورس؟
               </h2>
               {/* <p className="about-content__text" data-aos="fade-up">
                 Use the list below to bring attention to your product’s key

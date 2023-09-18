@@ -415,7 +415,7 @@ export default function CourseListOne() {
                     </div>
                   </div>
 
-                  <div className="sidebar__item">
+                  {/* <div className="sidebar__item">
                     <div className="accordion js-accordion">
                       <div
                         className={`accordion__item js-accordion-item-active ${
@@ -578,9 +578,9 @@ export default function CourseListOne() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="sidebar__item">
+                  {/* <div className="sidebar__item">
                     <div className="accordion js-accordion">
                       <div
                         className={`accordion__item js-accordion-item-active ${
@@ -849,7 +849,7 @@ export default function CourseListOne() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
