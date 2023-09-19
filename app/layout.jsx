@@ -24,7 +24,11 @@ export default function RootLayout({ children }) {
   }, []);
   return (
     <html lang="ar" className="" dir="rtl">
-      <head></head>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
+        <script src="https://secure.gosell.io/js/sdk/tap.min.js"></script>
+      </head>
       <body>
         <Context> {children}</Context>
       </body>

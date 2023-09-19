@@ -15,13 +15,13 @@ export default function LearnNewSkill() {
                 className="about-content__title customSized"
                 data-aos="fade-up"
               >
-                <span>ايش</span> رح تستفيد اذا دخلت الكورس؟
+                <span>ايش</span> رح تستفيد لما تدخل الكورس؟
               </h2>
               {/* <p className="about-content__text" data-aos="fade-up">
                 Use the list below to bring attention to your product’s key
                 <br /> differentiator.
               </p> */}
-              <div className="y-gap-20 pt-50">
+              {/* <div className="y-gap-20 pt-50">
                 {featureOne.map((elm, i) => (
                   <div
                     key={i}
@@ -45,6 +45,11 @@ export default function LearnNewSkill() {
                     <div className="about-content-list__title">{elm.title}</div>
                   </div>
                 ))}
+              </div> */}
+              <div className="mt-40">
+                <p>
+                المعلومات الي داخل الكورس لو تعلمتها وطبقها فأنت حرفيًا مسكت طريق الثراء، يبقى عليك الاستمرار فقط
+                </p>
               </div>
 
               <div className="d-inline-block mt-30">

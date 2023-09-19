@@ -8,7 +8,7 @@ export default function Join() {
           <div className="col-xl-4 col-lg-5">
             <h2 className="text-30 lh-15 text-white">
               انضم الى اكثر من 
-              <span className="text-green-1">100 مشترك</span> حول العالم
+              <span className="text-green-1">250 مشترك</span> حول الوطن العربي!
             </h2>
           </div>
 
