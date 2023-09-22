@@ -21,21 +21,21 @@ export default function HomeNine() {
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [messageOpen, setMessageOpen] = useState(false);
   useEffect(() => {
-    if (window.innerWidth < 990) {
+    if (window?.innerWidth < 990) {
       setIsSidebarClosed(true);
     }
     const handleResize = () => {
-      if (window.innerWidth < 990) {
+      if (window?.innerWidth < 990) {
         setIsSidebarClosed(true);
       }
     };
 
     // Add event listener to window resize event
-    window.addEventListener("resize", handleResize);
+    window?.addEventListener("resize", handleResize);
 
     // Clean up the event listener when component unmounts
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window?.removeEventListener("resize", handleResize);
     };
   }, []);
   return (

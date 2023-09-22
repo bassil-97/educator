@@ -2,22 +2,23 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useContextElement } from "@/context/Context";
+import { useHttpClient } from "@/hooks/http-hook";
 import Link from "next/link";
-import { GoSell, GoSellElements } from "@tap-payments/gosell";
+import { GoSell } from "@tap-payments/gosell";
 import Cookies from "universal-cookie";
 
 export default function CourseCheckOut() {
   const cookies = new Cookies();
+  const { sendRequest } = useHttpClient();
   const { cartCourses } = useContextElement();
   const [totalPrice, setTotalPrice] = useState(0);
   const [shiping, setShiping] = useState(0);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [cardToken, setCardToken] = useState("");
-
+  
   const storedData = cookies.get("userInfo");
-  console.log(storedData);
+  const userId = cookies.get("userId");
 
   useEffect(() => {
     const sum = cartCourses.reduce((accumulator, currentValue) => {
@@ -35,44 +36,30 @@ export default function CourseCheckOut() {
     e.preventDefault();
   };
 
-  const handleCreateCharge = (response) => {
-    // console.log(response);
-    setCardToken(response.id);
+  const handleCreateCharge = async (response) => {
+    if (response["callback"]["status"] === "CAPTURED") {
+      
+      let cartItems = JSON.parse(localStorage.getItem("cartCourses"));
+      let responseData = await sendRequest(
+        "http://localhost:5000/api/users/create-transaction",
+        "POST",
+        JSON.stringify({
+          amount: response["callback"]["amount"],
+          items: cartItems,
+          userId: userId
+        }),
+        {
+          "Content-Type": "application/json",
+        }
+      );
 
-    const options = {
-      method: 'POST',
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json',
-        Authorization: 'Bearer sk_live_1lbBfArnZseQXMRIPgu4cv3J'
-      },
-      body: JSON.stringify({
-        amount: 1,
-        currency: 'KWD',
-        customer_initiated: true,
-        threeDSecure: true,
-        save_card: false,
-        description: 'Test Description',
-        metadata: {udf1: 'Metadata 1'},
-        reference: {transaction: 'txn_01', order: 'ord_01'},
-        receipt: {email: true, sms: true},
-        customer: {
-          first_name: 'test',
-          middle_name: 'test',
-          last_name: 'test',
-          email: 'test@test.com',
-          phone: {country_code: 965, number: 51234567}
-        },
-        source: {id: 'src_all'},
-        post: {url: 'http://your_website.com/post_url'},
-        redirect: {url: 'http://your_website.com/redirect_url'}
-      })
-    };
-    
-    fetch('https://api.tap.company/v2/charges', options)
-      .then(response => response.json())
-      .then(response => console.log(response))
-      .catch(err => console.error(err));
+      if(responseData["coursesAdded"]) localStorage.removeItem("cartCourses");
+    }
+  };
+
+  const handleSubmitOrder = () => {
+    localStorage.setItem("cartCourses", JSON.stringify(cartCourses));
+    GoSell.openPaymentPage();
   };
 
   return (
@@ -102,9 +89,9 @@ export default function CourseCheckOut() {
           <div className="row y-gap-50">
             <div className="col-lg-8">
               <div className="shopCheckout-form">
-                <GoSellElements
+                <GoSell
                   gateway={{
-                    publicKey: "pk_test_txbleOATaDRov4iXVM7r8Wk2",
+                    publicKey: "pk_live_XunlTCS9WBDVaYorHb8sKcjq",
                     language: "en",
                     contactInfo: true,
                     supportedCurrencies: "all",
@@ -116,7 +103,7 @@ export default function CourseCheckOut() {
                       url: "imgURL",
                       opacity: "0.5",
                     },
-                    callback: handleCreateCharge,
+                    callback: (response) => handleCreateCharge(response),
                     labels: {
                       cardNumber: "Card Number",
                       expirationDate: "MM/YY",
@@ -145,7 +132,7 @@ export default function CourseCheckOut() {
                   customer={{
                     first_name: firstName,
                     last_name: lastName,
-                    email: email,
+                    email: email
                   }}
                   order={{
                     amount: `${totalPrice}`,
@@ -159,7 +146,7 @@ export default function CourseCheckOut() {
                     charge: {
                       saveCard: false,
                       threeDSecure: true,
-                      description: "your order",
+                      description: "Test Description",
                       statement_descriptor: "Sample",
                       reference: {
                         transaction: "txn_0001",
@@ -167,14 +154,18 @@ export default function CourseCheckOut() {
                       },
                       metadata: {},
                       receipt: {
-                        email: true,
+                        email: false,
                         sms: true,
                       },
-                      redirect: "http://localhost:3000/courses-list-1",
-                      post: null,
+                      redirect: null,
+                      post: "http://localhost:3000/courses-list-1",
+                      source: {
+                        id: "src_all"
+                      }
                     },
                   }}
                 />
+                
                 <form
                   onSubmit={handleSubmit}
                   className="contact-form row x-gap-30 y-gap-30"
@@ -223,12 +214,14 @@ export default function CourseCheckOut() {
                   </div>
 
                   <div className="mt-30">
-                    <button onClick={() => GoSellElements.submit()}>
-                      Submit
+                   
+                    <button onClick={() => handleSubmitOrder()}>
+                      open goSell Page
                     </button>
+                    {/* <button onClick={() => GoSellElements.submit()}>Submit</button> */}
                     {/* <button onClick={() => GoSell.openPaymentPage()}>
-                  إكمال الطلب
-                </button> */}
+                      إكمال الطلب
+                    </button> */}
                     {/* <button type="submit" className="button -md -accent col-12 -uppercase">
                     اكمل الطلب
                   </button> */}

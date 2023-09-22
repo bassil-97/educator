@@ -5,7 +5,7 @@ import Preloader from '@/components/common/Preloader'
 import CourseListOne from '@/components/courseList/CourseListOne'
 import FooterOne from '@/components/layout/footers/FooterOne'
 import Header from '@/components/layout/headers/Header'
-import React from 'react';
+import React, { useEffect } from 'react';
 import Cookies from "universal-cookie";
 import { useRouter } from 'next/navigation';
 
@@ -22,7 +22,9 @@ export default function page() {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
 
-  if(!token) return router.push("/login");
+  useEffect(() => {
+    if(!token) return router.push("/login");
+  }, []);
 
   return (
     <div className="main-content  ">

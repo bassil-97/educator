@@ -15,14 +15,14 @@ export default function HeaderTwo() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const position = window.scrollY;
+      const position = window?.scrollY;
       setScrollPosition(position);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window?.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window?.removeEventListener("scroll", handleScroll);
     };
   }, []);
   return (

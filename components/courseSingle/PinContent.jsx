@@ -4,10 +4,10 @@ import React, { useState, useEffect } from "react";
 import { useContextElement } from "@/context/Context";
 import ModalVideoComponent from "../common/ModalVideo";
 import Image from "next/image";
-export default function PinContent({ pageItem }) {
+export default function PinContent({ pageItem, userCourses }) {
   const { isAddedToCartCourses, addCourseToCart } = useContextElement();
   const [isOpen, setIsOpen] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenWidth, setScreenWidth] = useState(window?.innerWidth);
   // useEffect hook to update the screen width when the window is resized
   useEffect(() => {
     const handleResize = () => {
@@ -75,7 +75,8 @@ export default function PinContent({ pageItem }) {
               )}
             </div>
 
-            <button
+            {!userCourses?.includes(pageItem.id) && <>
+              <button
               className="button -md -purple-1 text-white w-1/1"
               onClick={() => addCourseToCart(pageItem.id)}
             >
@@ -86,6 +87,7 @@ export default function PinContent({ pageItem }) {
             <button className="button -md -outline-dark-1 text-dark-1 w-1/1 mt-10">
               Buy Now
             </button>
+            </>}
 
             {/* <div className="text-14 lh-1 text-center mt-30">
               30-Day Money-Back Guarantee
@@ -182,7 +184,7 @@ export default function PinContent({ pageItem }) {
         </div>
       </div>
       <ModalVideoComponent
-        videoId={"LlCwHnp3kL4"}
+        videoId={"pL5VWAW6OIE"}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       />

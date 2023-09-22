@@ -50,14 +50,30 @@ export const lessonItems = [
     title: "برمجة عقلية الثري",
     duration: "87 min",
     lessons: [
-      { id: 1, title: "التقرب من الله قلب حياتي", duration: "20:16" },
-      { id: 2, title: "أسرار النجاح المخفية", duration: "35:33" },
+      {
+        id: 1,
+        title: "التقرب من الله قلب حياتي",
+        duration: "20:16",
+        videoId: "-qnebFWAORM",
+      },
+      {
+        id: 2,
+        title: "أسرار النجاح المخفية",
+        duration: "35:33",
+        videoId: "rewk9UUk4Xc",
+      },
       {
         id: 3,
         title: "تحرر من الاستعباد",
         duration: "24:04",
+        videoId: "K8NpHYHO7Ew",
       },
-      { id: 4, title: "الضربة القاضية لتحرير عقلك", duration: "23:37 " },
+      {
+        id: 4,
+        title: "الضربة القاضية لتحرير عقلك",
+        duration: "23:37",
+        videoId: "pL5VWAW6OIE",
+      },
     ],
   },
   {
@@ -70,6 +86,7 @@ export const lessonItems = [
         title: "حقق دخل شهري من بيع الخدمة",
         duration: "20:39",
         questions: 5,
+        videoId: "KTy4nThZbbc",
       },
       {
         id: 2,
@@ -82,18 +99,21 @@ export const lessonItems = [
         title: "طرق الاستثمار في الذهب",
         duration: "13:32",
         questions: 5,
+        videoId: "sXRFfoxxQeQ",
       },
       {
         id: 4,
         title: "عالم التداول",
         duration: "13:56",
         questions: 5,
+        videoId: "2FPDKzb6J5E",
       },
       {
         id: 5,
         title: "سستم الربح من التلفون",
         duration: "11:00",
         questions: 5,
+        videoId: "A_98wOrWd5w",
       },
     ],
   },

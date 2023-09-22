@@ -6,9 +6,16 @@ import { lessonItems } from "@/data/aboutcourses";
 import React, { useState } from "react";
 import ModalVideoComponent from "../common/ModalVideo";
 
-export default function CourseContent() {
+export default function CourseContent({ pageItem, userCourses }) {
   const [activeItemId, setActiveItemId] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedLesson, setSelectedLesson] = useState("");
+
+  const handleSelectedLesson = (videoLink) => {
+    setIsOpen(true);
+    setSelectedLesson(videoLink);
+  };
+
   return (
     <>
       <div id="course-content" className="pt-60 lg:pt-40">
@@ -64,19 +71,19 @@ export default function CourseContent() {
                       {elm.lessons.map((itm, index) => (
                         <div key={index} className="d-flex justify-between">
                           <div className="d-flex items-center">
-                            <div className="d-flex justify-center items-center size-30 rounded-full bg-purple-3 mr-10">
+                            <div className="d-flex justify-center items-center size-30 rounded-full bg-purple-3 ml-10">
                               <div className="icon-play text-9"></div>
                             </div>
                             <div>{itm.title}</div>
                           </div>
 
                           <div className="d-flex x-gap-20 items-center">
-                            <span
-                              onClick={() => setIsOpen(true)}
+                            {userCourses?.find(element => element == pageItem.id) && <span
+                              onClick={() => handleSelectedLesson(itm.videoId)}
                               className="text-14 lh-1 text-purple-1 underline cursor "
                             >
                               Preview
-                            </span>
+                            </span>}
                             <a
                               href="#"
                               className="text-14 lh-1 text-purple-1 underline"
@@ -103,7 +110,7 @@ export default function CourseContent() {
       <ModalVideoComponent
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        videoId={"LlCwHnp3kL4"}
+        videoId={selectedLesson}
       />
     </>
   );

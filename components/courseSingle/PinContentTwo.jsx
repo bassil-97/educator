@@ -7,7 +7,7 @@ import ModalVideoComponent from "../common/ModalVideo";
 export default function PinContentTwo({ pageItem }) {
   const { isAddedToCartCourses, addCourseToCart } = useContextElement();
   const [isOpen, setIsOpen] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenWidth, setScreenWidth] = useState(window?.innerWidth);
 
   // useEffect hook to update the screen width when the window is resized
   useEffect(() => {

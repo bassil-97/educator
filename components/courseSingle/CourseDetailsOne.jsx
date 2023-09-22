@@ -4,6 +4,8 @@ import Star from "../common/Star";
 
 import { coursesData } from "@/data/courses";
 import React, { useState, useEffect } from "react";
+import { useHttpClient } from "@/hooks/http-hook";
+import Cookies from "universal-cookie";
 
 import PinContent from "./PinContent";
 import Overview from "./Overview";
@@ -18,11 +20,27 @@ const menuItems = [
 ];
 
 export default function CourseDetailsOne({ id }) {
+  const cookies = new Cookies();
+  const { sendRequest } = useHttpClient();
   const [pageItem, setPageItem] = useState(coursesData[0]);
+  const [userCourses, setUserCourses] = useState([]);
+  const userId = cookies.get("userId");
+
+  const fetchUserCourses = async () => {
+    try {
+      let responseData = await sendRequest(`http://localhost:5000/api/users/get-user-courses/${userId}`);
+      setUserCourses(responseData["courses"]);  
+      console.log(responseData["courses"]);
+    } catch(err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     setPageItem(coursesData.filter((elm) => elm.id == id)[0] || coursesData[0]);
+    fetchUserCourses();
   }, []);
+  
 
   return (
     <div id="js-pin-container" className="js-pin-container relative">
@@ -108,7 +126,7 @@ export default function CourseDetailsOne({ id }) {
           </div>
         </div>
       </section>
-      <PinContent pageItem={pageItem} />
+      <PinContent pageItem={pageItem} userCourses={userCourses} />
 
       <section className="layout-pt-md layout-pb-md">
         <div className="container">
@@ -132,7 +150,7 @@ export default function CourseDetailsOne({ id }) {
               </div>
 
               <Overview />
-              <CourseContent />
+              <CourseContent pageItem={pageItem} userCourses={userCourses} />
               {/* <Instractor />
               <Reviews /> */}
             </div>

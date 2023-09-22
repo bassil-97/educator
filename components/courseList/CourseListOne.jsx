@@ -18,8 +18,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import PaginationTwo from "../common/PaginationTwo";
+import Cookies from "universal-cookie";
+import { useHttpClient } from "@/hooks/http-hook";
 
 export default function CourseListOne() {
+  const cookies = new Cookies();
+  const { sendRequest } = useHttpClient();
+  
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [ratingOpen, setRatingOpen] = useState(true);
   const [instractorOpen, setInstractorOpen] = useState(true);
@@ -45,6 +50,22 @@ export default function CourseListOne() {
   const [sortedFilteredData, setSortedFilteredData] = useState([]);
 
   const [pageNumber, setPageNumber] = useState(1);
+  const [userCourses, setUserCourses] = useState([]);
+  const userId = cookies.get("userId");
+
+  const fetchUserCourses = async () => {
+    try {
+      let responseData = await sendRequest(`http://localhost:5000/api/users/get-user-courses/${userId}`);
+      setUserCourses(responseData["courses"]);  
+      console.log(responseData["courses"]);
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserCourses();
+  }, []);
 
   useEffect(() => {
     const refItems = coursesData.filter((elm) => {
@@ -414,442 +435,6 @@ export default function CourseListOne() {
                       </div>
                     </div>
                   </div>
-
-                  {/* <div className="sidebar__item">
-                    <div className="accordion js-accordion">
-                      <div
-                        className={`accordion__item js-accordion-item-active ${
-                          instractorOpen ? "is-active" : ""
-                        } `}
-                      >
-                        <div
-                          className="accordion__button items-center"
-                          onClick={() => setInstractorOpen((pre) => !pre)}
-                        >
-                          <h5 className="sidebar__title">Instructors</h5>
-
-                          <div className="accordion__icon">
-                            <div className="icon icon-chevron-down"></div>
-                            <div className="icon icon-chevron-up"></div>
-                          </div>
-                        </div>
-
-                        <div
-                          className="accordion__content"
-                          style={instractorOpen ? { maxHeight: "350px" } : {}}
-                        >
-                          <div className="accordion__content__inner">
-                            <div className="sidebar-checkbox">
-                              <div
-                                className="sidebar-checkbox__item"
-                                onClick={() => setFilterInstractors([])}
-                              >
-                                <div className="form-checkbox">
-                                  <input
-                                    type="checkbox"
-                                    checked={
-                                      filterInstractors.length ? false : true
-                                    }
-                                  />
-                                  <div className="form-checkbox__mark">
-                                    <div className="form-checkbox__icon icon-check"></div>
-                                  </div>
-                                </div>
-
-                                <div className="sidebar-checkbox__title">
-                                  All
-                                </div>
-                                <div className="sidebar-checkbox__count"></div>
-                              </div>
-                              {instractorNames.map((elm, i) => (
-                                <div
-                                  key={i}
-                                  className="sidebar-checkbox__item cursor"
-                                  onClick={() =>
-                                    handleFilterInstractors(elm.title)
-                                  }
-                                >
-                                  <div className="form-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      checked={
-                                        filterInstractors.includes(elm.title)
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                    <div className="form-checkbox__mark">
-                                      <div className="form-checkbox__icon icon-check"></div>
-                                    </div>
-                                  </div>
-
-                                  <div className="sidebar-checkbox__title">
-                                    {elm.title}
-                                  </div>
-                                  <div className="sidebar-checkbox__count">
-                                    (
-                                    {
-                                      coursesData.filter(
-                                        (itm) => itm.authorName == elm.title,
-                                      ).length
-                                    }
-                                    )
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                            <div className="sidebar__more mt-15">
-                              <a
-                                href="#"
-                                className="text-14 fw-500 underline text-purple-1"
-                              >
-                                Show more
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="sidebar__item">
-                    <div className="accordion js-accordion">
-                      <div
-                        className={`accordion__item js-accordion-item-active ${
-                          priceOpen ? "is-active" : ""
-                        } `}
-                      >
-                        <div
-                          className="accordion__button items-center"
-                          onClick={() => setPriceOpen((pre) => !pre)}
-                        >
-                          <h5 className="sidebar__title">Price</h5>
-
-                          <div className="accordion__icon">
-                            <div className="icon icon-chevron-down"></div>
-                            <div className="icon icon-chevron-up"></div>
-                          </div>
-                        </div>
-
-                        <div
-                          className="accordion__content"
-                          style={priceOpen ? { maxHeight: "350px" } : {}}
-                        >
-                          <div className="accordion__content__inner">
-                            <div className="sidebar-checkbox">
-                              {prices.map((elm, i) => (
-                                <div
-                                  key={i}
-                                  className="sidebar-checkbox__item cursor"
-                                  onClick={() => handleFilterPrice(elm.title)}
-                                >
-                                  <div className="form-radio mr-10">
-                                    <div className="radio">
-                                      <input
-                                        type="radio"
-                                        checked={
-                                          filterPrice == elm.title
-                                            ? "checked"
-                                            : ""
-                                        }
-                                      />
-                                      <div className="radio__mark">
-                                        <div className="radio__icon"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="sidebar-checkbox__title">
-                                    {elm.title}
-                                  </div>
-                                  <div className="sidebar-checkbox__count">
-                                    (
-                                    {elm.title == "Free" &&
-                                      coursesData.filter((itm) => !itm.paid)
-                                        .length}
-                                    {elm.title == "Paid" &&
-                                      coursesData.filter((itm) => itm.paid)
-                                        .length}
-                                    {elm.title == "All" && coursesData.length})
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
-
-                  {/* <div className="sidebar__item">
-                    <div className="accordion js-accordion">
-                      <div
-                        className={`accordion__item js-accordion-item-active ${
-                          levelOpen ? "is-active" : ""
-                        }  `}
-                      >
-                        <div
-                          className="accordion__button items-center"
-                          onClick={() => setLevelOpen((pre) => !pre)}
-                        >
-                          <h5 className="sidebar__title">Level</h5>
-
-                          <div className="accordion__icon">
-                            <div className="icon icon-chevron-down"></div>
-                            <div className="icon icon-chevron-up"></div>
-                          </div>
-                        </div>
-
-                        <div
-                          className="accordion__content"
-                          style={levelOpen ? { maxHeight: "350px" } : {}}
-                        >
-                          <div className="accordion__content__inner">
-                            <div className="sidebar-checkbox">
-                              <div
-                                className="sidebar-checkbox__item cursor"
-                                onClick={() => setFilterLevels([])}
-                              >
-                                <div className="form-checkbox">
-                                  <input
-                                    type="checkbox"
-                                    checked={
-                                      filterLevels.length < 1 ? true : false
-                                    }
-                                  />
-                                  <div className="form-checkbox__mark">
-                                    <div className="form-checkbox__icon icon-check"></div>
-                                  </div>
-                                </div>
-
-                                <div className="sidebar-checkbox__title">
-                                  All
-                                </div>
-                                <div className="sidebar-checkbox__count"></div>
-                              </div>
-                              {levels.map((elm, i) => (
-                                <div
-                                  key={i}
-                                  className="sidebar-checkbox__item cursor"
-                                  onClick={() => handleFilterLevels(elm.title)}
-                                >
-                                  <div className="form-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      checked={
-                                        filterLevels.includes(elm.title)
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                    <div className="form-checkbox__mark">
-                                      <div className="form-checkbox__icon icon-check"></div>
-                                    </div>
-                                  </div>
-
-                                  <div className="sidebar-checkbox__title">
-                                    {elm.title}
-                                  </div>
-                                  <div className="sidebar-checkbox__count">
-                                    (
-                                    {
-                                      coursesData.filter((itm) => !itm.paid)
-                                        .length
-                                    }
-                                    )
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="sidebar__item">
-                    <div className="accordion js-accordion">
-                      <div
-                        className={`accordion__item js-accordion-item-active ${
-                          openLanguage ? "is-active" : ""
-                        } `}
-                      >
-                        <div
-                          className="accordion__button items-center"
-                          onClick={() => setOpenLanguage((pre) => !pre)}
-                        >
-                          <h5 className="sidebar__title">Languange</h5>
-
-                          <div className="accordion__icon">
-                            <div className="icon icon-chevron-down"></div>
-                            <div className="icon icon-chevron-up"></div>
-                          </div>
-                        </div>
-
-                        <div
-                          className="accordion__content"
-                          style={openLanguage ? { maxHeight: "350px" } : {}}
-                        >
-                          <div className="accordion__content__inner">
-                            <div className="sidebar-checkbox">
-                              <div
-                                className="sidebar-checkbox__item cursor"
-                                onClick={() => setFilterlanguange([])}
-                              >
-                                <div className="form-checkbox">
-                                  <input
-                                    type="checkbox"
-                                    checked={
-                                      filterlanguange.length ? false : true
-                                    }
-                                  />
-                                  <div className="form-checkbox__mark">
-                                    <div className="form-checkbox__icon icon-check"></div>
-                                  </div>
-                                </div>
-                                <div className="sidebar-checkbox__title">
-                                  All
-                                </div>
-                                <div className="sidebar-checkbox__count"></div>
-                              </div>
-                              {languages.map((elm, i) => (
-                                <div
-                                  key={i}
-                                  className="sidebar-checkbox__item cursor"
-                                  onClick={() =>
-                                    handleFilterlanguange(elm.title)
-                                  }
-                                >
-                                  <div className="form-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      checked={
-                                        filterlanguange.includes(elm.title)
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                    <div className="form-checkbox__mark">
-                                      <div className="form-checkbox__icon icon-check"></div>
-                                    </div>
-                                  </div>
-                                  <div className="sidebar-checkbox__title">
-                                    {elm.title}
-                                  </div>
-                                  <div className="sidebar-checkbox__count">
-                                    (
-                                    {
-                                      coursesData.filter(
-                                        (itm) => itm.languange == elm.title,
-                                      ).length
-                                    }
-                                    )
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                            <div className="sidebar__more mt-15">
-                              <a
-                                href="#"
-                                className="text-14 fw-500 underline text-purple-1"
-                              >
-                                Show more
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="sidebar__item">
-                    <div className="accordion js-accordion">
-                      <div
-                        className={`accordion__item js-accordion-item-active ${
-                          durationOpen ? "is-active" : ""
-                        } `}
-                      >
-                        <div
-                          className="accordion__button items-center"
-                          onClick={() => setDurationOpen((pre) => !pre)}
-                        >
-                          <h5 className="sidebar__title">Duration</h5>
-
-                          <div className="accordion__icon">
-                            <div className="icon icon-chevron-down"></div>
-                            <div className="icon icon-chevron-up"></div>
-                          </div>
-                        </div>
-
-                        <div
-                          className="accordion__content"
-                          style={durationOpen ? { maxHeight: "350px" } : {}}
-                        >
-                          <div className="accordion__content__inner">
-                            <div className="sidebar-checkbox">
-                              <div
-                                className="sidebar-checkbox__item"
-                                onClick={() => setFilterDuration([])}
-                              >
-                                <div className="form-checkbox">
-                                  <input
-                                    type="checkbox"
-                                    checked={
-                                      filterDuration.length ? false : true
-                                    }
-                                  />
-                                  <div className="form-checkbox__mark">
-                                    <div className="form-checkbox__icon icon-check"></div>
-                                  </div>
-                                </div>
-                                <div className="sidebar-checkbox__title">
-                                  All
-                                </div>
-                                <div className="sidebar-checkbox__count"></div>
-                              </div>
-                              {duration.map((elm, i) => (
-                                <div
-                                  key={i}
-                                  className="sidebar-checkbox__item cursor"
-                                  onClick={() =>
-                                    handleFilterDuration(elm.range)
-                                  }
-                                >
-                                  <div className="form-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      checked={
-                                        filterDuration.toString() ==
-                                        elm.range.toString()
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                    <div className="form-checkbox__mark">
-                                      <div className="form-checkbox__icon icon-check"></div>
-                                    </div>
-                                  </div>
-                                  <div className="sidebar-checkbox__title">
-                                    {elm.title}
-                                  </div>
-                                  <div className="sidebar-checkbox__count">
-                                    (
-                                    {
-                                      coursesData.filter(
-                                        (itm) =>
-                                          itm.duration >= elm.range[0] &&
-                                          itm.duration <= elm.range[1],
-                                      ).length
-                                    }
-                                    )
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -1681,7 +1266,7 @@ export default function CourseListOne() {
                             </div>
                           </div> */}
 
-                          <div className="row x-gap-20 y-gap-15 items-center pt-30">
+                          {!userCourses?.includes(elm.id) ? <div className="row x-gap-20 y-gap-15 items-center pt-30">
                             <div className="col">
                               <button
                                 style={{ padding: "0px 54px" }}
@@ -1698,7 +1283,12 @@ export default function CourseListOne() {
                                 <div className="icon-bookmark text-20 text-purple-1"></div>
                               </div>
                             </div>
-                          </div>
+                          </div> : <Link
+                              className="linkCustom mr-10"
+                              href={`/courses/${elm.id}`}
+                            >
+                              {elm.title}
+                            </Link>}
                         </div>
                       </div>
                     </div>

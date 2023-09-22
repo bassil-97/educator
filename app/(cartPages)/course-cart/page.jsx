@@ -5,7 +5,6 @@
 
 
 
-import BlogsOne from '@/components/blogs/BlogsOne'
 import PageLinks from '@/components/common/PageLinks'
 import Preloader from '@/components/common/Preloader'
 
