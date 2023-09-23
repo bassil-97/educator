@@ -41,7 +41,7 @@ export default function CourseCheckOut() {
       
       let cartItems = JSON.parse(localStorage.getItem("cartCourses"));
       let responseData = await sendRequest(
-        "http://localhost:5000/api/users/create-transaction",
+        `${NEXT_PUBLIC_API_URL}/api/users/create-transaction`,
         "POST",
         JSON.stringify({
           amount: response["callback"]["amount"],

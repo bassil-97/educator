@@ -22,7 +22,7 @@ export default function SignUpForm() {
 
     try {
       let responseData = await sendRequest(
-        "http://localhost:5000/api/users/register",
+        `${NEXT_PUBLIC_API_URL}/api/users/register`,
         "POST",
         JSON.stringify({
           email,
