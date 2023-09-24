@@ -20,7 +20,7 @@ export default function LoginForm() {
 
     try {
       let responseData = await sendRequest(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/users/login`,
+        `http://api.faconsulting.me/api/users/login`,
         "POST",
         JSON.stringify({
           email,

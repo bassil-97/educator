@@ -28,7 +28,7 @@ export default function CourseDetailsOne({ id }) {
 
   const fetchUserCourses = async () => {
     try {
-      let responseData = await sendRequest(`${process.env.NEXT_PUBLIC_API_URL}/api/users/get-user-courses/${userId}`);
+      let responseData = await sendRequest(`http://api.faconsulting.me/api/users/get-user-courses/${userId}`);
       setUserCourses(responseData["courses"]);  
       console.log(responseData["courses"]);
     } catch(err) {
